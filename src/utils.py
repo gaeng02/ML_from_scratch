@@ -16,7 +16,6 @@ def train_test_split (X, y, test_size = 0.2, shuffle = True, seed = None) :
         X_test (np.ndarray)
         y_train (np.ndarray)
         y_test (np.ndarray)
-
     ''' 
 
     if shuffle :
@@ -32,3 +31,64 @@ def train_test_split (X, y, test_size = 0.2, shuffle = True, seed = None) :
     split = int(size * (1 - test_size))
     
     return X[ : split], X[split : ], y[ : split], y[split : ]
+
+
+def accuracy_score (y_true, y_pred) :
+    '''
+    Calculate the accuracy score 
+    
+    Args :
+        y_true (np.ndarray) : truth binary label
+        y_pred (np.ndarray) : predicted binary label
+
+    Returns :
+        float (0 ~ 1) : accuracy
+    '''
+    
+    return np.mean(y_true == y_pred)
+
+# TP : True Positive. predict 1, actually 1
+# FP : False Positive. predict 1, actually 0
+# TN : True Negative. predict 0, actually 0
+# FN : False Negative. predict 0, actually 1
+
+def precision_score (y_true, y_pred) :
+    '''
+    Calculate the precision score 
+    
+    Args :
+        y_true (np.ndarray) : truth binary label
+        y_pred (np.ndarray) : predicted binary label
+
+    Returns :
+        float (0 ~ 1) : precision
+    '''
+
+    TP = np.sum((y_true == 1) & (y_pred == 1))
+    FP = np.sum((y_true == 0) & (y_pred == 1))
+
+    if (TP == 0) : return 0.0
+    if (FP == 0) : return 1.0
+    
+    return TP / (TP + FP)
+
+
+def recall_score (y_true, y_pred) :
+    '''
+    Calculate the recall score 
+    
+    Args :
+        y_true (np.ndarray) : truth binary label
+        y_pred (np.ndarray) : predicted binary label
+
+    Returns :
+        float (0 ~ 1) : recall
+    '''
+
+    TP = np.sum((y_true == 1) & (y_pred == 1))
+    FN = np.sum((y_true == 1) & (y_pred == 0))
+
+    if (TP == 0) : return 0.0
+    if (FN == 0) : return 1.0
+    
+    return TP / (TP + FN)
