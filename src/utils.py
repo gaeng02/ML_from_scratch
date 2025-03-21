@@ -92,3 +92,47 @@ def recall_score (y_true, y_pred) :
     if (FN == 0) : return 1.0
     
     return TP / (TP + FN)
+
+
+def f1_score (y_true, y_pred) :
+    '''
+    Calculate the f1 score 
+    
+    Args :
+        y_true (np.ndarray) : truth binary label
+        y_pred (np.ndarray) : predicted binary label
+
+    Returns :
+        float (0 ~ 1) : f1 score 
+    '''
+    
+    p = precision_score(y_true, y_pred)
+    r = recall_score(y_true, y_pred)
+
+    if (p + r == 0) : return 0
+
+    return 2 * p * r / (p + r)
+
+
+def confusion_matrix (y_true, y_pred) :
+    '''
+    Draw the confusion matrix  
+    
+    Args :
+        y_true (np.ndarray) : truth binary label
+        y_pred (np.ndarray) : predicted binary label
+
+    '''
+
+    TP = np.sum((y_true == 1) & (y_pred == 1))
+    TN = np.sum((y_true == 0) & (y_pred == 0))
+    FP = np.sum((y_true == 0) & (y_pred == 1))
+    FN = np.sum((y_true == 1) & (y_pred == 0))
+
+    print(" === Confusion Matrix === ")
+    print()
+    print("                 Prediction")
+    print("               |   0   |   1   |")
+    print("         ---------------------")
+    print(f" Actual   0   | {TN : 3}   | {FP : 3}   |")
+    print(f"           1   | {FN : 3}   | {TP : 3}   |")
