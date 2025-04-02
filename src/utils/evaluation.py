@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def train_test_split (X, y, test_size = 0.2, shuffle = True, seed = None) :
     '''
@@ -136,3 +137,41 @@ def confusion_matrix (y_true, y_pred) :
     print("         ---------------------")
     print(f" Actual   0   | {TN : 3}   | {FP : 3}   |")
     print(f"           1   | {FN : 3}   | {TP : 3}   |")
+
+
+def roc_curve (y_true, y_score, thresholds = 100) :
+    '''
+    Calculate FPR and TPR for ROC Curve
+    
+    Args :
+        y_true (np.ndarray) : True binary labels
+        y_score (np.ndarray) : Predicted scores or probabilities
+        thresholds (int) : Number of thresholds to evaluate (default : 100)
+    
+    Returns :
+        FPR, TPR (list of float) : fpr and tpr
+    '''
+    
+    thresholds = np.linspace(0, 1, thresholds)
+    FPR = []
+    TPR = []
+
+    for thresh in thresholds :
+        y_pred = (y_score >= thresh).astype(int)
+
+        TP = np.sum((y_true == 1) & (y_pred == 1))
+        TN = np.sum((y_true == 0) & (y_pred == 0))
+        FP = np.sum((y_true == 0) & (y_pred == 1))
+        FN = np.sum((y_true == 1) & (y_pred == 0))
+
+        if ((FP + TN) == 0) : fpr = 0
+        else : fpr = FP / (FP + TN)
+
+        if ((TP + FN) == 0) : tpr = 0
+        else : fpr = TP / (TP + FN)
+
+        FPR.append(fpr)
+        TPR.append(tpr)
+
+    return FPR, TPR
+
