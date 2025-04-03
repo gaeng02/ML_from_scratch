@@ -153,8 +153,8 @@ def roc_curve (y_true, y_score, thresholds = 100) :
     '''
     
     thresholds = np.linspace(0, 1, thresholds)
-    FPR = []
-    TPR = []
+    FPR = [] # False Positive Rate
+    TPR = [] # True Positive Rate
 
     for thresh in thresholds :
         y_pred = (y_score >= thresh).astype(int)
@@ -170,8 +170,30 @@ def roc_curve (y_true, y_score, thresholds = 100) :
         if ((TP + FN) == 0) : tpr = 0
         else : fpr = TP / (TP + FN)
 
-        FPR.append(fpr)
+        FPR.append(fpr) 
         TPR.append(tpr)
 
     return FPR, TPR
 
+
+def plot_roc_curve (y_true, y_score) :
+    '''
+    Draw ROC Curve
+    
+    Args :
+        y_true (np.ndarray) : True labels
+        y_score (np.ndarray) : Predicted scores (probabilities)
+    '''
+    
+    FPR, TPR = roc_curve(y_true, y_score)
+    auc = np.trapz(TPR, FPR)
+
+    plt.figure(figsize = (6, 6))
+    plt.plot(fpr, tpr, label = f'AUC = {auc:.4f}')
+    plt.plot([0, 1], [0, 1], linestyle = '--', color = 'gray')
+    plt.xlabel("FPR")
+    plt.ylabel("TPR")
+    plt.title("ROC Curve")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
