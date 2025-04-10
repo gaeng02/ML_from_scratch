@@ -1,2 +1,4 @@
 # Python cache files
 __pycache__/
+
+./src/test.py
