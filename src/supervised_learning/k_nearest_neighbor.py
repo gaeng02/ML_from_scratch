@@ -1,7 +1,7 @@
 import numpy as np
 from src.distance import Euclidean
 
-class KNNClassifier :
+class KNN :
 
     def __init__ (self, k = 3) :
         self.k = k
