@@ -9,7 +9,6 @@ def entropy (y) :
 
     Returns :
         entropy (float) : entropy value (>= 0)
-
     '''
 
     labels, counts = np.unique(y, return_counts = True)
@@ -24,3 +23,23 @@ def entropy (y) :
     entropy = - entropy_sum
 
     return entropy
+
+def gini_index (y) : 
+    '''
+    Calculate the Gini index
+
+    Args :
+        y (np.ndarray) : label array
+
+    Returns :
+       gini (float) : gini index (0 ~ 1)
+    '''
+
+    labels, counts = np.unique(y, return_counts = True)
+    probabilities = counts / counts.sum()
+
+    gini = 1 - np.sum(probabilities ** 2)
+
+    return gini
+
+
