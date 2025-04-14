@@ -42,14 +42,14 @@ def gini_index (y) :
 
     return gini
 
-def information_gain (y, y_left, y_right, criterion = "entropy") :
+def information_gain (y, left, right, criterion = "entropy") :
     '''
     Calculate the information gain as a potential split
 
     Args :
         y (np.ndarray) : parent node
-        y_left (np.ndarray) : left child labels
-        y_right (np.ndarray) : right child labels
+        left (np.ndarray) : left child labels
+        right (np.ndarray) : right child labels
         criterion (str) : "entropy" or "gini_index" (default = "entropy")
 
     Returns :
@@ -61,6 +61,10 @@ def information_gain (y, y_left, y_right, criterion = "entropy") :
     else :
         raise ValueError("")
 
-    # how to measure?
+    n = len(y)
+    n_left = len(left)
+    n_right = len(right)
+
+    gain = measure(y) - (n_left / n) * measure(left) - (n_right / n) * measure(right)
     
     return gain
